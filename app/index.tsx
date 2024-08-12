@@ -1,12 +1,12 @@
-import React from 'react';
-import { Text, View } from 'react-native';
+import React, { FC } from 'react';
+import { ActivityIndicator, View } from 'react-native';
 
-const index = () => {
+const App: FC = () => {
     return (
-        <View>
-            <Text>index</Text>
+        <View className={'flex-1 items-center justify-center'}>
+            <ActivityIndicator color={'gray'} size={'large'} />
         </View>
     );
 };
 
-export default index;
+export default App;
