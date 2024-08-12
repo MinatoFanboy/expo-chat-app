@@ -23,7 +23,7 @@ export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
         let timer: NodeJS.Timeout;
 
         timer = setTimeout(() => {
-            setIsAuthenticated(true);
+            setIsAuthenticated(false);
         }, 3000);
 
         return () => clearTimeout(timer);
