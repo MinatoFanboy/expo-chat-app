@@ -11,7 +11,7 @@ const Home: FC = () => {
     };
 
     return (
-        <View className={'flex-1 items-center justify-center'}>
+        <View className={'bg-white flex-1'}>
             <Button onPress={handleLogout} title={'Logout'} />
         </View>
     );

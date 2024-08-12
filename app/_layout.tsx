@@ -3,6 +3,7 @@ import { FC, useEffect } from 'react';
 import { useFonts } from 'expo-font';
 import { Stack, router, useSegments } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
+import { MenuProvider } from 'react-native-popup-menu';
 
 import { AuthProvider, useAuth } from '@/context/authContext';
 
@@ -54,9 +55,11 @@ const RootLayout: FC = () => {
     }
 
     return (
-        <AuthProvider>
-            <MainLayout />
-        </AuthProvider>
+        <MenuProvider>
+            <AuthProvider>
+                <MainLayout />
+            </AuthProvider>
+        </MenuProvider>
     );
 };
 
