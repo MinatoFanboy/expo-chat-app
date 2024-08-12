@@ -7,6 +7,7 @@ const MainLayout: FC = () => {
     return (
         <Stack>
             <Stack.Screen name={'home'} options={{ header: () => <HomeHeader /> }} />
+            <Stack.Screen name={'chatRoom'} options={{ header: () => <HomeHeader /> }} />
         </Stack>
     );
 };
