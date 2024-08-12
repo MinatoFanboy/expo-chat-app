@@ -1,7 +1,7 @@
 import 'react-native-reanimated';
 import { FC, useEffect } from 'react';
 import { useFonts } from 'expo-font';
-import { router, Slot, useSegments } from 'expo-router';
+import { Stack, router, useSegments } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 
 import { AuthProvider, useAuth } from '@/context/authContext';
@@ -22,13 +22,20 @@ const MainLayout: FC = () => {
         const isApp = segment[0] === '(app)';
 
         if (isAuthenticated && !isApp) {
-            router.replace('/home');
+            router.replace('/(app)');
         } else if (isAuthenticated === false) {
             router.replace('/signIn');
         }
     }, [isAuthenticated]);
 
-    return <Slot />;
+    return (
+        <Stack screenOptions={{ headerShown: false }}>
+            <Stack.Screen name={'index'} />
+            <Stack.Screen name={'(app)'} />
+            <Stack.Screen name={'signIn'} />
+            <Stack.Screen name={'signUp'} />
+        </Stack>
+    );
 };
 
 const RootLayout: FC = () => {

@@ -6,8 +6,10 @@ import { useRouter } from 'expo-router';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 import { CustomKeyboard, Loading } from '@/components';
+import { useAuth } from '@/context/authContext';
 
 const SignIn: FC = () => {
+    const { login } = useAuth();
     const router = useRouter();
 
     const [loading, setLoading] = useState<boolean>(false);
@@ -22,6 +24,13 @@ const SignIn: FC = () => {
         }
 
         /** Process login */
+        setLoading(true);
+        let response: any = await login(emailRef.current, passwordRef.current);
+        setLoading(false);
+
+        if (!response.success) {
+            Alert.alert('Sign In', response.msg);
+        }
     };
 
     return (
@@ -51,7 +60,10 @@ const SignIn: FC = () => {
                             <Octicons color={'gray'} name={'mail'} size={hp(2.7)} />
 
                             <TextInput
+                                autoCapitalize={'none'}
+                                autoComplete={'email'}
                                 className={'flex-1 font-semibold text-neutral-700'}
+                                keyboardType={'email-address'}
                                 onChangeText={(value) => (emailRef.current = value)}
                                 placeholder={'Email address'}
                                 placeholderTextColor={'gray'}

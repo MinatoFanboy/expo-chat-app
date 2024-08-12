@@ -1,10 +1,18 @@
 import React, { FC } from 'react';
-import { Text, View } from 'react-native';
+import { Button, View } from 'react-native';
+
+import { useAuth } from '@/context/authContext';
 
 const Home: FC = () => {
+    const { logout } = useAuth();
+
+    const handleLogout = async () => {
+        await logout();
+    };
+
     return (
-        <View>
-            <Text>Home</Text>
+        <View className={'flex-1 items-center justify-center'}>
+            <Button onPress={handleLogout} title={'Logout'} />
         </View>
     );
 };
