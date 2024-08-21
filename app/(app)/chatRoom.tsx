@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
-import { Alert, TextInput, TouchableOpacity, View } from 'react-native';
+import { Alert, Keyboard, ScrollView, TextInput, TouchableOpacity, View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { addDoc, collection, doc, onSnapshot, orderBy, query, setDoc, Timestamp } from 'firebase/firestore';
@@ -25,6 +25,7 @@ const ChatRoom: FC = () => {
     const item = useLocalSearchParams();
 
     const inputRef = useRef<TextInput>(null);
+    const scrollRef = useRef<ScrollView>(null);
     const textRef = useRef('');
     const [messages, setMessages] = useState<IMessage[]>([]);
 
@@ -69,6 +70,12 @@ const ChatRoom: FC = () => {
         }
     };
 
+    const updateScrollView = () => {
+        setTimeout(() => {
+            scrollRef?.current?.scrollToEnd({ animated: false });
+        }, 100);
+    };
+
     useEffect(() => {
         createRoomIfNotExists();
 
@@ -85,7 +92,20 @@ const ChatRoom: FC = () => {
             setMessages([...allMessages] as IMessage[]);
         });
 
-        return unSub;
+        const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', updateScrollView);
+
+        return () => {
+            unSub();
+            keyboardDidShowListener.remove();
+        };
+    }, []);
+
+    useEffect(() => {
+        let timer = setTimeout(() => {
+            scrollRef?.current?.scrollToEnd({ animated: false });
+        }, 100);
+
+        return () => clearTimeout(timer);
     }, []);
 
     return (
@@ -99,7 +119,7 @@ const ChatRoom: FC = () => {
 
                 <View className={'bg-neutral-100 flex-1 justify-between overflow-visible'}>
                     <View className={'flex-1'}>
-                        <MessageList currentUser={user} messages={messages} />
+                        <MessageList currentUser={user} messages={messages} ref={scrollRef} />
                     </View>
 
                     <View className={'pt-2'} style={{ marginBottom: hp(1.7) }}>

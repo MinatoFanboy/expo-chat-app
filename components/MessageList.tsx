@@ -1,4 +1,4 @@
-import React, { FC, memo } from 'react';
+import React, { FC, forwardRef, memo } from 'react';
 import { ScrollView, Text, View } from 'react-native';
 import { Timestamp } from 'firebase/firestore';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
@@ -37,14 +37,16 @@ const MessageItem: FC<{ currentUser: IUser | null; message: IMessage }> = ({ cur
     </>
 );
 
-const MessageList: FC<{ currentUser: IUser | null; messages: IMessage[] }> = ({ currentUser, messages }) => {
-    return (
-        <ScrollView contentContainerStyle={{ paddingTop: 10 }} showsVerticalScrollIndicator={false}>
-            {messages.map((message, index) => (
-                <MessageItem currentUser={currentUser} key={`Message-${index}`} message={message} />
-            ))}
-        </ScrollView>
-    );
-};
+const MessageList = forwardRef<ScrollView, { currentUser: IUser | null; messages: IMessage[] }>(
+    ({ currentUser, messages }, ref) => {
+        return (
+            <ScrollView contentContainerStyle={{ paddingTop: 10 }} ref={ref} showsVerticalScrollIndicator={false}>
+                {messages.map((message, index) => (
+                    <MessageItem currentUser={currentUser} key={`Message-${index}`} message={message} />
+                ))}
+            </ScrollView>
+        );
+    },
+);
 
 export default memo(MessageList);
