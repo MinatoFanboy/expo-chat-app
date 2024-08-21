@@ -52,13 +52,13 @@ const ChatList: FC<ChatListProps> = ({ users }) => {
     const router = useRouter();
 
     const openChatRoom = (item: any) => {
-        router.push({ pathname: '/chatRoom', params: item });
+        router.push({ pathname: '/(app)/chatRoom', params: item });
     };
 
     return (
         <View className={'flex-1'}>
             <FlatList
-                contentContainerStyle={{ flex: 1, paddingHorizontal: 25 }}
+                contentContainerStyle={{ flex: 1, paddingTop: 25 }}
                 data={users}
                 keyExtractor={() => `${Math.random()}`}
                 renderItem={({ index, item }) => (

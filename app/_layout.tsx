@@ -23,7 +23,7 @@ const MainLayout: FC = () => {
         const isApp = segment[0] === '(app)';
 
         if (isAuthenticated && !isApp) {
-            router.replace('/(app)');
+            router.replace('/(app)/home');
         } else if (isAuthenticated === false) {
             router.replace('/signIn');
         }
